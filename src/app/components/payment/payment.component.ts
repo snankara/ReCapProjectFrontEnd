@@ -112,18 +112,15 @@ async rentACar(){
   }
 }
 
- async isCardExist(creditCard:CreditCard){
-  return (await this.creditCardService.verifyCard(creditCard).toPromise());
-}
+  async isCardExist(creditCard:CreditCard){
+    return (await this.creditCardService.verifyCard(creditCard).toPromise());
+  }
 
-async getByCardNumber(cardNumber:string){
-  return (await this.creditCardService.getByCardNumber(cardNumber).toPromise()).data;
-}
+  async getByCardNumber(cardNumber:string){
+    return (await this.creditCardService.getByCardNumber(cardNumber).toPromise()).data;
+  }
 
-async updateCard(creditCard:CreditCard){
-  return (await this.creditCardService.updateCard(creditCard).toPromise()).success;
-}
-  // getCarDetails(){
-  //   this.carDetailService.getCarDetails()
-  // }
+  async updateCard(creditCard:CreditCard){
+    return (await this.creditCardService.updateCard(creditCard).toPromise()).success;
+  }
 }

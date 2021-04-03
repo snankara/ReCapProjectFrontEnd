@@ -37,9 +37,6 @@ export class CarDetailComponent implements OnInit {
   getRentalByCarId(carId:number){
     this.rentalService.getRentalByCarId(carId).subscribe(response => {
       this.rental = response.data 
-      //  if(item == null){
-      //   this.toastrService.error("Araç Henüz Teslim Edilmemiş !");
-      // }
     })
   }
   getSliderClassName(index:Number){
