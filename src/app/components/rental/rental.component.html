@@ -1,0 +1,75 @@
+<!-- <table class="table">
+    <thead>
+        <tr>
+            <th>Car Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Daily Price</th>
+            <th>Rent Date</th>
+            <th>Return Date</th>
+        </tr>
+    </thead>
+    <tr *ngFor="let rental of rentals">
+        <td>{{rental.carName}}</td>
+        <td>{{rental.firstName}}</td>
+        <td>{{rental.lastName}}</td>
+        <td>{{rental.dailyPrice}}</td> 
+        <td>{{rental.rentDate}}</td>
+        <td>{{rental.returnDate}}</td>
+    </tr>
+</table> -->
+
+<!-- <table class="table">
+    <thead>
+        <tr>
+            <th>Car Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Daily Price</th>
+            <th>Rent Date</th>
+            <th>Return Date</th>
+        </tr>
+    </thead>
+    <tr *ngFor="let car of carDetail.car">
+        <td>{{car.carName}}</td>
+        <td>{{car.brandName}}</td>
+        <td>{{car.colorName}}</td>
+        <td>{{car.dailyPrice}}</td>
+        <td>{{car.description}}</td>
+    </tr>
+</table> -->
+
+
+<div class="card" style="margin-top:10px;">
+    <div class="card-header">
+        <h5>{{carDetail.car[0]?.brandName}} | {{carDetail.car[0]?.carName}}</h5>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Kiralama Bilgileri</h5>
+        <hr>
+        <div class="row">
+            <div class="col-md-3">
+                <label for="car-dailyPrice" class="col-form-label">Günlük Fiyat</label><br>
+                <label for="customer-input" class="col-form-label">Müşteri</label><br>
+                <label for="rentDate-input" class="col-form-label">Başlangıç Tarihi</label><br>
+                <label for="returnDate-input" class="col-form-label">Bitiş Tarihi</label>
+
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control mb-1" disabled="disabled" [value]="carDetail.car[0]?.dailyPrice | currency:'₺'">
+                <select class="form-select mb-1" aria-label="Default select example" [(ngModel)]="customerId">
+                    <option *ngFor="let customer of customers" [ngValue]="customer.customerId">{{customer.firstName}} {{customer.lastName}} </option>
+                </select>
+                <input (change)="onChangeEvent($event)" min="{{getRentMinDate()}}" [(ngModel)]="rentDate" id="rent-date" type="date" class="form-control mb-1">
+
+                <input disabled={{!firstDateSelected}} min="{{getReturnMinDate()}}" max="{{getReturnMaxDate()}}" [(ngModel)]="returnDate" id="return-date" type="date" class="form-control mb-1">
+            </div>
+        </div>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+
+        <button (click)="checkRentableCar()" class="btn btn-outline-primary" type="button" data-bs-toggle="collapse">
+            Ödemeye Geç
+        </button>
+
+    </div>
+</div>
