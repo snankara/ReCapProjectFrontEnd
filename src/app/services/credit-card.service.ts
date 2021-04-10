@@ -24,9 +24,14 @@ export class CreditCardService {
     let newPath = this.apiUrl + "creditcards/getbycardnumber?cardNumber=" + cardNumber;
     return this.httpClient.get<ItemResponseModel<CreditCard>>(newPath);
   }
-
+ 
   updateCard(creditCard:CreditCard):Observable<ResponseModel>{
     let newPath = this.apiUrl + "creditcards/update";
     return this.httpClient.post<ResponseModel>(newPath,creditCard);
+  }
+
+  getCardById(cardId:number):Observable<ItemResponseModel<CreditCard>>{
+    let newPath = this.apiUrl + "creditcards/getbyid?id="+cardId;
+    return this.httpClient.get<ItemResponseModel<CreditCard>>(newPath);
   }
 }

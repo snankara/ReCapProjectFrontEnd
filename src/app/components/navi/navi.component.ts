@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Customer } from 'src/app/models/customer';
+import { User } from 'src/app/models/user';
+import { CustomerService } from 'src/app/services/customer.service';
+import { LocalStrogeService } from 'src/app/services/local-stroge.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-navi',
@@ -7,9 +13,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NaviComponent implements OnInit {
 
-  constructor() { }
+  state:boolean;
+  user:User
+  customer : Customer
+
+  constructor(private userService:UserService, private customerService:CustomerService, private localStorageService:LocalStrogeService) { }
 
   ngOnInit(): void {
+    let customer = this.localStorageService.getLocalStorage("customer");
+    if (customer != null) {
+      this.getCustomerByMail(customer.email);
+    }
+      this.isAuthenticated();
   }
 
+  getCustomerByMail(email:string){
+    this.customerService.getCustomerByEmail(email).subscribe(response => {
+      this.customer = response.data
+    })
+  }
+  isAuthenticated(){
+    localStorage.getItem("token") ? this.state=true : this.state= false;
+  }
 }

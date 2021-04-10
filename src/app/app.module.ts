@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-
+import {MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS} from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -27,6 +27,11 @@ import { ColorAddComponent } from './components/color-add/color-add.component';
 import { CarUpdateComponent } from './components/car-update/car-update.component';
 import { BrandUpdateComponent } from './components/brand-update/brand-update.component';
 import { ColorUpdateComponent } from './components/color-update/color-update.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { CustomerUpdateComponent } from './components/customer-update/customer-update.component';
+import { DialogCardComponent } from './components/dialog-card/dialog-card.component';
 
 
 
@@ -51,6 +56,10 @@ import { ColorUpdateComponent } from './components/color-update/color-update.com
     CarUpdateComponent,
     BrandUpdateComponent,
     ColorUpdateComponent,
+    LoginComponent,
+    RegisterComponent,
+    CustomerUpdateComponent,
+    DialogCardComponent,
 
   ],
   imports: [
@@ -59,12 +68,17 @@ import { ColorUpdateComponent } from './components/color-update/color-update.com
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
+    MatDialogModule,
     ReactiveFormsModule,
     ToastrModule.forRoot({
       positionClass:"toast-top-right"
     })
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {provide:HTTP_INTERCEPTORS, useClass:AuthInterceptor, multi:true},
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
+  ],
+  bootstrap: [AppComponent],
+  entryComponents : [DialogCardComponent]
 })
 export class AppModule { }

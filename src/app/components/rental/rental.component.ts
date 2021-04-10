@@ -6,10 +6,13 @@ import { Car } from 'src/app/models/car';
 import { CarDetail } from 'src/app/models/carDetail';
 import { Customer } from 'src/app/models/customer';
 import { Rental } from 'src/app/models/rental';
+import { User } from 'src/app/models/user';
 import { CarDetailService } from 'src/app/services/car-detail.service';
 import { CarService } from 'src/app/services/car.service';
 import { CustomerService } from 'src/app/services/customer.service';
+import { LocalStrogeService } from 'src/app/services/local-stroge.service';
 import { RentalService } from 'src/app/services/rental.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-rental',
@@ -20,50 +23,55 @@ import { RentalService } from 'src/app/services/rental.service';
 export class RentalComponent implements OnInit {
 
   rentals:Rental[] = [];
-  cars:Car[];
-  customers:Customer[];
+  cars:Car[] = [];
+  customer:Customer;
   carDetail:CarDetail={car:[],carImages:[]};
-  @Input() car:Car;
+  user:User
 
   carId:number;
-  customerId:number;
+  userId:number;
   rentDate:Date;
   returnDate:Date;
 
   minDate:string | any;
   maxDate:string | null
   maxMinDate:string | null;
-  firstDateSelected:boolean = false; 
+  findeksScoreState:boolean;
+  firstDateSelected:boolean =false;
 
   constructor(private rentalService:RentalService, private customerService:CustomerService,
-              private toastrService:ToastrService, private router:Router, private carService:CarService, private activatedRoute: ActivatedRoute,
-              private carDetailService:CarDetailService,private datePipe:DatePipe
+              private toastrService:ToastrService, private router:Router, private activatedRoute: ActivatedRoute,
+              private carDetailService:CarDetailService,private datePipe:DatePipe, private localStorageService:LocalStrogeService
     ) { }
 
   ngOnInit(): void {
+    
     this.activatedRoute.params.subscribe(params => {
       if(params["carId"]){
-        this.carId = params["carId"];
+        this.carId = params["carId"]
         this.getCar(params["carId"])
       }
     })
-    this.getCustomers();
+    let customer = this.localStorageService.getLocalStorage("customer");
+    this.getCustomerByEmail(customer.email);
   }
-  
-getCar(carId:number){
-  this.carDetailService.getCarDetails(carId).subscribe(response => {
-    this.carDetail.car = response.data.car;
-  })
-}
-  getRentals(){
-    this.rentalService.getRentals().subscribe(response => {
-      this.rentals = response.data; 
+
+
+
+  getCustomerByEmail(email:string){
+    this.customerService.getCustomerByEmail(email).subscribe(response => {
+      this.customer = response.data
     })
   }
 
-  getCustomers(){
-    this.customerService.getCustomers().subscribe(response => {
-      this.customers =response.data
+  getCar(carId:number){
+    this.carDetailService.getCarDetails(carId).subscribe(response => {
+      this.carDetail.car = response.data.car;
+    })
+  }
+  getRentals(){
+    this.rentalService.getRentals().subscribe(response => {
+      this.rentals = response.data;
     })
   }
 
@@ -77,6 +85,7 @@ getCar(carId:number){
       let lastItem = response.data[response.data.length-1]
       let returnDate = new Date(lastItem?.returnDate);
       let rentDate = new Date(lastItem?.rentDate);
+
       if(rentDate > returnDate){
         return this.toastrService.error("Lütfen Girdiğiniz Bilgileri Kontrol Ediniz.")
       }
@@ -89,7 +98,7 @@ getCar(carId:number){
   createRental(){
     let createdRental: Rental = {
       carId: this.carDetail.car[0].carId,
-      customerId : this.customerId,
+      customerId : this.customer.customerId,
       carName: this.carDetail.car[0].carName,
       dailyPrice : this.carDetail.car[0].dailyPrice,
       rentDate : this.rentDate,
@@ -110,23 +119,35 @@ getCar(carId:number){
     return this.minDate
   }
 
-getReturnMinDate(){
-  if(this.rentDate != undefined) {
-    let stringToDate = new Date(this.rentDate)
-    let newDate = new Date();
-    newDate.setDate(stringToDate.getDate() + 1);
-    return newDate.toISOString().slice(0,10)
+  getReturnMinDate(){
+    if(this.rentDate != undefined) {
+      let stringToDate = new Date(this.rentDate)
+      let newDate = new Date();
+      newDate.setDate(stringToDate.getDate() + 1);
+      
+      return newDate.toISOString().slice(0,10)
 
-  }else {
-    return this.rentDate;
-
+    }else {
+      return this.rentDate;
+    }
   }
-}
 
-getReturnMaxDate() {
-  this.maxDate = this.datePipe.transform(new Date(new Date().setFullYear(new Date().getFullYear() + 1)),'yyyy-MM-dd');
-  return this.maxDate;
-}
+  checkFindeksScore(){
+    this.carDetailService.getCarDetails(this.carId).subscribe(response => {
+      let customer = this.localStorageService.getLocalStorage("customer");
+      let car = response.data
+
+      if (customer.findeksScore < car.car[0].minFindeksScore) {
+         return this.toastrService.error("Findeks Puanınız Yetersiz Gibi Görünüyor.","Dikkat !")
+      }
+      return this.checkRentableCar(); 
+    })
+  }
+
+  getReturnMaxDate() {
+    this.maxDate = this.datePipe.transform(new Date(new Date().setFullYear(new Date().getFullYear() + 1)),'yyyy-MM-dd');
+    return this.maxDate;
+  }
 
   onChangeEvent(event:any){
     this.minDate = event.target.value;

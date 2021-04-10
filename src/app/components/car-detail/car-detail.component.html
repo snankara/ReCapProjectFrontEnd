@@ -7,6 +7,7 @@
             <label class="card-text">Renk: {{carDetail.car[0]?.colorName}}</label><br><br>
             <label class="card-text">Günlük Fiyat: {{carDetail.car[0]?.dailyPrice}}₺</label><br><br>
             <label class="card-text">Açıklama: {{carDetail.car[0]?.description}}</label><br><br>
+            <label class="card-text">Minimum Findeks Puanı: {{carDetail.car[0]?.minFindeksScore}}</label><br><br>
 
             <button routerLink="/rental/car/{{carDetail.car[0]?.carId}}" [ngClass]="getButtonClassName()" type="button" data-bs-toggle="collapse">
                 Kirala

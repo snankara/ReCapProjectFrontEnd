@@ -35,7 +35,7 @@
             <span>Güvenlik Numarası (CVV)</span>
             <input type="text" class="form-control mb-1" [(ngModel)]="cardCvv" required="required" placeholder="Örn: 123">
         </div>
-        <button (click)="rentACar()" class="btn btn-outline-primary" style="margin-top:5px;" type="button">
+        <button (click)="rentIt()" class="btn btn-outline-primary" style="margin-top:5px;" type="button">
             <strong> {{paymentAmount | currency : "₺"}} Ödemeyi Tamamla</strong>
         </button>
     </div>

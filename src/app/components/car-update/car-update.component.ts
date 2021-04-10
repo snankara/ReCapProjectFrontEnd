@@ -27,7 +27,7 @@ export class CarUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
-      if(params["carId"] && params["carName"]){
+      if(params["carId"] && params["carName"]){ 
         this.getCarById(params["carId"]);
         this.createCarUpdateForm(params["carName"]);
 
@@ -73,7 +73,7 @@ export class CarUpdateComponent implements OnInit {
     if(this.carUpdateForm.valid){
       let carUpdateModel = Object.assign({},this.carUpdateForm.value)
       this.carService.carUpdate(carUpdateModel).subscribe(response => {
-        this.toastrService.success(response.messages,"Başarılı !")
+        this.toastrService.success(response.message,"Başarılı !")
       },responseError => {
         if(responseError.error.Errors.length > 0){
           for (let i = 0; i < responseError.error.Errors.length; i++) {

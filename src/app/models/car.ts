@@ -5,6 +5,7 @@ export interface Car{
     colorName:string;
     modelYear:string;
     dailyPrice:number; 
+    minFindeksScore:number;
     description:string;
     status:boolean;
 }
