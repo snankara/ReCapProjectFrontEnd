@@ -13,9 +13,9 @@ export class LocalStrogeService {
     localStorage.setItem(keyValue.toString(),JSON.stringify(entity))
   }
 
-  getLocalStorage<TKeyValue = string>(keyValue:TKeyValue) {
-    var customer = JSON.parse(localStorage.getItem(keyValue.toString()));
-    return customer;
+  getLocalStorage<TKeyValue>(keyValue:TKeyValue) {
+    var entity = JSON.parse(localStorage.getItem(keyValue.toString()));
+    return entity;
   }
 
   removeLocalStorage<TKeyValue = string>(keyValue:TKeyValue) {

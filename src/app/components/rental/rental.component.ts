@@ -52,15 +52,15 @@ export class RentalComponent implements OnInit {
         this.getCar(params["carId"])
       }
     })
-    let customer = this.localStorageService.getLocalStorage("customer");
-    this.getCustomerByEmail(customer.email);
+    this.getCustomerByUserId();
   }
 
 
 
-  getCustomerByEmail(email:string){
-    this.customerService.getCustomerByEmail(email).subscribe(response => {
-      this.customer = response.data
+  getCustomerByUserId(){
+    let customer = this.localStorageService.getLocalStorage("customer");
+    this.customerService.getCustomerByUserId(customer.userId).subscribe(response => {
+      this.customer = response.data[0]
     })
   }
 

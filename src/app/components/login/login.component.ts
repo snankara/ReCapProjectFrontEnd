@@ -33,16 +33,17 @@ export class LoginComponent implements OnInit {
 
   createLoginForm(){
     this.loginForm = this.formBuilder.group({
-      email : ["", Validators.required],
+      email : ["", Validators.required], 
       password : ["", Validators.required]
     })
   }
 
-  getCustomerByEmail(email:string){
-    this.customerService.getCustomerByEmail(email).subscribe(response => {
-      this.customer = response.data
+  getCustomerByUserId(userId:number){
+    this.customerService.getCustomerByUserId(userId).subscribe(response => {
+      this.customer = response.data[0]
       this.localStorageService.setLocalStorage(this.customer,"customer")
-      this.getCustomerCreditCard();
+      let result = this.localStorageService.getLocalStorage("customer")
+      this.getCustomerCreditCard(result.cardId);
     })
   }
 
@@ -50,16 +51,16 @@ export class LoginComponent implements OnInit {
     this.userService.getUserByMail(email).subscribe(response => {
       this.user = response.data
       this.localStorageService.setLocalStorage(this.user,"user")
+      let result = this.localStorageService.getLocalStorage("user")
+      this.getCustomerByUserId(result.id);
     })
   }
 
-  getCustomerCreditCard(){
-    if (this.localStorageService.getLocalStorage("customer").cardId) {
-      let cardId =this.localStorageService.getLocalStorage("customer").cardId 
+  getCustomerCreditCard(cardId:number){
+    if (cardId != null) {
       this.creditCardService.getCardById(cardId).subscribe(response => {
         this.localStorageService.setLocalStorage(response.data,"creditCard")
       })
-  
     }
   }
   login(){
@@ -67,10 +68,13 @@ export class LoginComponent implements OnInit {
       let loginModel = Object.assign({}, this.loginForm.value);
       this.authService.login(loginModel).subscribe(response => {
         this.toastrService.info(response.message, "Başarılı !");
-        this.getCustomerByEmail(loginModel.email)
+        this.getUserByEmail(loginModel.email)
+
         this.localStorageService.setLocalStorage(response.data.token,"token")
         // localStorage.setItem("token",response.data.token);
-        this.getUserByEmail(loginModel.email)
+        
+        
+
         setTimeout(() => {this.router.navigate([""])}, 1000)
       },responseError => {
         this.toastrService.error(responseError.error, "Dikkat !")

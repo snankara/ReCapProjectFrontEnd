@@ -26,7 +26,7 @@ export class PaymentComponent implements OnInit {
   cardNumber:string;
   nameOnTheCard:string;
   cardExpirationDate:string;
-  cardCvv:string;
+  cardCvv:string; 
   moneyInTheCard:number;
 
   customer:Customer;
@@ -48,8 +48,7 @@ export class PaymentComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       if(params['rental']){
         this.rental = JSON.parse(params['rental']);
-        this.getCustomerId = JSON.parse(params['rental']).customerId; 
-        this.getCustomerById(this.getCustomerId)
+        this.getCustomerByUserId();
         this.getCarDetails();
         this.createCreditCardForm();
         this.getLocalCreditCard();
@@ -72,8 +71,9 @@ export class PaymentComponent implements OnInit {
     })
   }
 
-  getCustomerById(customerId:number){
-    this.customerService.getCustomerById(customerId).subscribe(response => {
+  getCustomerByUserId(){
+    let customer = this.localStorageService.getLocalStorage("customer")
+    this.customerService.getCustomerByUserId(customer.userId).subscribe(response => {
       this.customer = response.data[0]
     })
   }
@@ -81,7 +81,6 @@ export class PaymentComponent implements OnInit {
   getLocalCreditCard(){
     if (this.creditCard = this.localStorageService.getLocalStorage("creditCard")) {
       this.creditCard = this.localStorageService.getLocalStorage("creditCard")
-      console.log(this.creditCard)
     }
   }
 
@@ -176,7 +175,6 @@ export class PaymentComponent implements OnInit {
   }
 
   openDialog(){
-    let dialogConfig = new MatDialogConfig()
     let dialogRef = this.dialog.open(DialogCardComponent, {
       width:'350px',
       position:{top:'0%', right:'20%'}
