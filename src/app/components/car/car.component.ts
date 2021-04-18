@@ -14,7 +14,6 @@ import { ColorService } from 'src/app/services/color.service';
 })
 export class CarComponent implements OnInit {
 
-  apiUrl = "https://localhost:44348/";
   cars:Car[] = [];
   brands:Brand[];
   colors:Color[];

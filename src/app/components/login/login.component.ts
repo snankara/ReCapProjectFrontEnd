@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit {
       this.localStorageService.setLocalStorage(this.customer,"customer")
       let result = this.localStorageService.getLocalStorage("customer")
       this.getCustomerCreditCard(result.cardId);
+
     })
   }
 
@@ -62,7 +63,9 @@ export class LoginComponent implements OnInit {
         this.localStorageService.setLocalStorage(response.data,"creditCard")
       })
     }
+
   }
+  
   login(){
     if(this.loginForm.valid){
       let loginModel = Object.assign({}, this.loginForm.value);
@@ -70,15 +73,15 @@ export class LoginComponent implements OnInit {
         this.toastrService.info(response.message, "Başarılı !");
         this.getUserByEmail(loginModel.email)
 
-        this.localStorageService.setLocalStorage(response.data.token,"token")
-        // localStorage.setItem("token",response.data.token);
-        
-        
+        this.localStorageService.setLocalStorage(response.data.token,"token")        
 
-        setTimeout(() => {this.router.navigate([""])}, 1000)
+        setTimeout(() => {this.router.navigate([""])}, 200)
+        setTimeout(() => {window.location.reload()}, 500)
+
       },responseError => {
         this.toastrService.error(responseError.error, "Dikkat !")
       })
+
     }
   }
 }

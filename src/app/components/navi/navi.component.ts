@@ -17,7 +17,7 @@ export class NaviComponent implements OnInit {
   user:User
   customer : Customer
 
-  constructor(private userService:UserService, private customerService:CustomerService, private localStorageService:LocalStrogeService) { }
+  constructor(private customerService:CustomerService, private localStorageService:LocalStrogeService) { }
 
   ngOnInit(): void {
     let customer = this.localStorageService.getLocalStorage("customer");
@@ -25,14 +25,21 @@ export class NaviComponent implements OnInit {
       this.getCustomerByMail(customer.email);
     }
       this.isAuthenticated();
-  }
+  } 
 
   getCustomerByMail(email:string){
     this.customerService.getCustomerByEmail(email).subscribe(response => {
       this.customer = response.data
     })
   }
+
   isAuthenticated(){
-    localStorage.getItem("token") ? this.state=true : this.state= false;
+    this.localStorageService.getLocalStorage("token") ? this.state=true : this.state= false;
+  }
+
+  logOut(){
+    console.log("Logout !");
+    this.localStorageService.clear()
+    window.location.reload();
   }
 }

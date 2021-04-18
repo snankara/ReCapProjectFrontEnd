@@ -21,4 +21,8 @@ export class LocalStrogeService {
   removeLocalStorage<TKeyValue = string>(keyValue:TKeyValue) {
     localStorage.removeItem(keyValue.toString())
   }
+
+  clear(){
+    localStorage.clear();
+  }
 }
