@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Brand } from 'src/app/models/brand';
 import { BrandService } from 'src/app/services/brand.service';
+import { CarComponent } from '../car/car.component';
 
 @Component({
   selector: 'app-brand',
@@ -11,7 +13,7 @@ export class BrandComponent implements OnInit {
 
   brands:Brand[]=[];
   currentBrand:Brand;
-  constructor(private brandService:BrandService) { }
+  constructor(private brandService:BrandService, private router:Router) { }
 
   ngOnInit(): void {
      this.getBrands();
@@ -19,7 +21,7 @@ export class BrandComponent implements OnInit {
 
   getBrands(){
     this.brandService.getBrands().subscribe(response => {
-      this.brands = response.data;
+      this.brands = response.data; 
     });
   } 
 

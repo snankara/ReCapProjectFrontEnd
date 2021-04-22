@@ -7,12 +7,10 @@ import { CarDetail } from 'src/app/models/carDetail';
 import { Customer } from 'src/app/models/customer';
 import { Rental } from 'src/app/models/rental';
 import { User } from 'src/app/models/user';
-import { CarDetailService } from 'src/app/services/car-detail.service';
 import { CarService } from 'src/app/services/car.service';
 import { CustomerService } from 'src/app/services/customer.service';
 import { LocalStrogeService } from 'src/app/services/local-stroge.service';
 import { RentalService } from 'src/app/services/rental.service';
-import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-rental',
@@ -25,7 +23,7 @@ export class RentalComponent implements OnInit {
   rentals:Rental[] = [];
   cars:Car[] = [];
   customer:Customer;
-  carDetail:CarDetail={car:[],carImages:[]};
+  carDetail:CarDetail[] = [];
   user:User
 
   carId:number;
@@ -41,7 +39,7 @@ export class RentalComponent implements OnInit {
 
   constructor(private rentalService:RentalService, private customerService:CustomerService,
               private toastrService:ToastrService, private router:Router, private activatedRoute: ActivatedRoute,
-              private carDetailService:CarDetailService,private datePipe:DatePipe, private localStorageService:LocalStrogeService
+              private carService:CarService,private datePipe:DatePipe, private localStorageService:LocalStrogeService
     ) { }
 
   ngOnInit(): void {
@@ -65,8 +63,8 @@ export class RentalComponent implements OnInit {
   }
 
   getCar(carId:number){
-    this.carDetailService.getCarDetails(carId).subscribe(response => {
-      this.carDetail.car = response.data.car;
+    this.carService.getCarAndImageDetailsByCarId(carId).subscribe(response => {
+      this.carDetail = response.data;
     })
   }
   getRentals(){
@@ -97,10 +95,10 @@ export class RentalComponent implements OnInit {
 
   createRental(){
     let createdRental: Rental = {
-      carId: this.carDetail.car[0].carId,
+      carId: this.carDetail[0].carId,
       customerId : this.customer.customerId,
-      carName: this.carDetail.car[0].carName,
-      dailyPrice : this.carDetail.car[0].dailyPrice,
+      carName: this.carDetail[0].carName,
+      dailyPrice : this.carDetail[0].dailyPrice,
       rentDate : this.rentDate,
       returnDate : this.returnDate
     };
@@ -129,15 +127,15 @@ export class RentalComponent implements OnInit {
 
     }else {
       return this.rentDate;
-    }
+    } 
   }
 
   checkFindeksScore(){
-    this.carDetailService.getCarDetails(this.carId).subscribe(response => {
+    this.carService.getCarAndImageDetailsByCarId(this.carId).subscribe(response => {
       let customer = this.localStorageService.getLocalStorage("customer");
-      let car = response.data
+      let carDetail = response.data
 
-      if (customer.findeksScore < car.car[0].minFindeksScore) {
+      if (customer.findeksScore < carDetail[0].minFindeksScore) {
          return this.toastrService.error("Findeks Puanınız Yetersiz Gibi Görünüyor.","Dikkat !")
       }
       return this.checkRentableCar(); 

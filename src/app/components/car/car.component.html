@@ -1,14 +1,87 @@
-<h4 style="margin-top:10px;">Araç Listesi</h4>
-<hr>
-<div class="row" style="margin-top: 10px;">
-    <div class="col-md-10">
-        <div class="input-group mb-3">
-            <input type="text" [(ngModel)]="carFilterText" class="form-control" id="carFilterText" placeholder="Araba ismine göre ara..." aria-label="Car">
-            <input type="text" [(ngModel)]="brandFilterText" class="form-control" id="brandFilter" placeholder="Markaya göre ara..." aria-label="Brand" style="margin-left:5px;">
-            <input type="text" [(ngModel)]="colorFilterText" class="form-control" id="colorFilter" placeholder="Renge göre ara..." aria-label="Color" style="margin-left:5px;">
+<div class="row">
+
+    <!-- <div class="col-md-2">
+        <app-brand></app-brand>
+        <app-color></app-color>
+    </div> -->
+
+
+
+    <div class="col-md-12">
+        <h4 style="margin-top:10px;">Araç Filomuz</h4>
+        <hr>
+        <!-- <div class="input-group mb-3">
+                    <input type="text" [(ngModel)]="carFilterText" class="form-control" id="carFilterText" placeholder="Araba ismine göre ara..." aria-label="Car">
+                    <input type="text" [(ngModel)]="brandFilterText" class="form-control" id="brandFilter" placeholder="Markaya göre ara..." aria-label="Brand" style="margin-left:5px;">
+                    <input type="text" [(ngModel)]="colorFilterText" class="form-control" id="colorFilter" placeholder="Renge göre ara..." aria-label="Color" style="margin-left:5px;">
+                </div> -->
+
+
+
+        <div class="card" style="width: 20rem; display: inline-block; margin: 10px;" *ngFor="let car of carDetail">
+            <div class="card-img">
+                <img src="{{apiUrl}}/{{car.imagePath[0]}}" class="card-img-top" alt="..." width="320px" height="180px">
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{car.brandName}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{car.carName}}</h6>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><label class="text-muted">Renk:</label> {{car.colorName}}</li>
+                <li class="list-group-item"><label class="text-muted">Açıklama:</label> {{car.description}}</li>
+                <li class="list-group-item"><label class="text-muted">Fiyat:</label> {{car.dailyPrice}}₺</li>
+                <li class="list-group-item"><label class="text-muted">Model:</label> {{car.modelYear}}</li>
+            </ul>
+
+            <div class="card-body">
+                <td><button type="button" routerLink="cardetail/car/{{car.carId}}" class="btn btn-outline-primary " style="margin-top: 5px;">Detay</button></td>
+            </div>
         </div>
 
-        <table class="table" style="margin-top: 10px;">
+
+
+
+        <!-- <div class="card mb-3" style="max-width: 540px;" *ngFor="let car of carDetail">
+                    <div class="row g-0">
+                        <div class="col-md-5">
+
+                            <img src="{{apiUrl}}/{{car.imagePath[0]}}" alt="..." width="200px"> -->
+
+        <!-- <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-indicators">
+                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                </div>
+                                <div class="carousel-inner">
+                                    <div *ngFor="let imagePath of car.imagePath  let i=index" [ngClass]="getSliderClassName(i)">
+                                        <img src="{{apiUrl}}/{{imagePath}}" class="d-block w-100" alt="...">
+                                    </div>
+                                </div>
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                  <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                  <span class="visually-hidden">Next</span>
+                                </button>
+                            </div> -->
+
+        <!-- </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">{{car.brandName}}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{{car.carName}}</h6>
+
+                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+
+        <!-- <table class="table" style="margin-top: 10px;">
             <thead>
                 <tr>
                     <th>Car Name</th>
@@ -20,61 +93,64 @@
                     <th></th>
                 </tr>
             </thead>
-            <tr *ngFor="let car of cars | carFilter:carFilterText | brandFilter:brandFilterText | colorFilter:colorFilterText" style="margin-top: 5px;">
+            <tr *ngFor="let car of carDetail | carFilter:carFilterText | brandFilter:brandFilterText | colorFilter:colorFilterText " style="margin-top: 5px;">
                 <td>{{car.carName}}</td>
                 <td>{{car.brandName}}</td>
                 <td>{{car.colorName}}</td>
-                <td>{{car.dailyPrice}}₺</td>
+                <td>{{car.dailyPrice}}</td>
                 <td>{{car.description}}</td>
-                <td><button type="button" routerLink="cardetail/car/{{car.carId}}" class="btn btn-outline-primary btn-sm" style="margin-top: 5px;">Detay</button></td>
+                <td><button type="button" routerLink="cardetail/car/{{car.carId}}" class="btn btn-outline-primary btn-sm " style="margin-top: 5px;">Detay</button></td>
                 <td><button type="button" routerLink="car/update/{{car.carName}}/{{car.carId}}" class="btn btn-outline-primary btn-sm" style="margin-top: 5px;">Güncelle</button></td>
             </tr>
         </table>
         <div class="d-grid gap-2 col-6 mx-auto">
             <button routerLink="car/add" class="btn btn-outline-primary" type="button"> Araba Ekle</button>
-        </div>
-    </div>
-    <div class="col-md-2">
-        <app-car-filter></app-car-filter>
+        </div> -->
+
+        <!-- <div class="col-md-2 ">
+                <app-car-filter></app-car-filter>
+            </div> -->
     </div>
 </div>
 
-<!-- <div class="card" style="margin-top:5px;">
-    <h5 class="card-header">Marka Listesi</h5>
+
+
+<!-- <div class="card " style="margin-top:5px; ">
+    <h5 class="card-header ">Marka Listesi</h5>
     <div>
-        <div class="container">
-            <div class="row-cols-md-4" style="text-align: center;">
-                <div *ngFor="let brand of brands" class="card-body" style="display: inline-block;">
-                    <h5 class="card-title">{{brand.brandName}}</h5>
-                    <p class="card-text"></p>
-                    <button routerLink="brand/update/{{brand.brandId}}" type="button" class="btn btn-outline-primary btn-sm" style="margin-top: 5px;">Güncelle</button>
+        <div class="container ">
+            <div class="row-cols-md-4 " style="text-align: center; ">
+                <div *ngFor="let brand of brands " class="card-body " style="display: inline-block; ">
+                    <h5 class="card-title ">{{brand.brandName}}</h5>
+                    <p class="card-text "></p>
+                    <button routerLink="brand/update/{{brand.brandId}} " type="button " class="btn btn-outline-primary btn-sm " style="margin-top: 5px; ">Güncelle</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="card-footer">
-        <div class="d-grid gap-2 col-6 mx-auto">
-            <button routerLink="brand/add" class="btn btn-outline-primary" type="button">Marka Ekle</button>
+    <div class="card-footer ">
+        <div class="d-grid gap-2 col-6 mx-auto ">
+            <button routerLink="brand/add " class="btn btn-outline-primary " type="button ">Marka Ekle</button>
         </div>
     </div>
 </div> -->
 
-<!-- <div class="card" style="margin-top:5px;">
-    <h5 class="card-header">Renk Listesi</h5>
+<!-- <div class="card " style="margin-top:5px; ">
+    <h5 class="card-header ">Renk Listesi</h5>
     <div>
-        <div class="container">
-            <div class="row-cols-md-5" style="text-align: center;">
-                <div *ngFor="let color of colors" class="card-body" style="display: inline-block;">
-                    <h5 class="card-title">{{color.colorName}}</h5>
-                    <p class="card-text"></p>
-                    <button routerLink="color/update/{{color.colorId}}" type="button" class="btn btn-outline-primary btn-sm" style="margin-top: 5px;">Güncelle</button>
+        <div class="container ">
+            <div class="row-cols-md-5 " style="text-align: center; ">
+                <div *ngFor="let color of colors " class="card-body " style="display: inline-block; ">
+                    <h5 class="card-title ">{{color.colorName}}</h5>
+                    <p class="card-text "></p>
+                    <button routerLink="color/update/{{color.colorId}} " type="button " class="btn btn-outline-primary btn-sm " style="margin-top: 5px; ">Güncelle</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="card-footer">
-        <div class="d-grid gap-2 col-6 mx-auto">
-            <button routerLink="color/add" class="btn btn-outline-primary" type="button">Renk Ekle</button>
+    <div class="card-footer ">
+        <div class="d-grid gap-2 col-6 mx-auto ">
+            <button routerLink="color/add " class="btn btn-outline-primary " type="button ">Renk Ekle</button>
         </div>
     </div>
 </div> -->

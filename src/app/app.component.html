@@ -1,13 +1,16 @@
 <div class="container">
-    <app-navi></app-navi>
-    <div class="row">
-        <div class="col-md-2">
-            <app-brand></app-brand>
-            <app-color></app-color>
+    <header>
+        <app-navi></app-navi>
+    </header>
+    <main>
+        <div class="row">
+            <div class="col-md-2">
+                <app-brand></app-brand>
+                <app-color></app-color>
+            </div>
+            <div class="col-md-10">
+                <router-outlet></router-outlet>
+            </div>
         </div>
-
-        <div class="col-md-10">
-            <router-outlet></router-outlet>
-        </div>
-    </div>
+    </main>
 </div>

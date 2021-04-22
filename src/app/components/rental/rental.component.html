@@ -1,6 +1,6 @@
 <div class="card" style="margin-top:10px;">
     <div class="card-header">
-        <h5>{{carDetail.car[0]?.brandName}} | {{carDetail.car[0]?.carName}}</h5>
+        <h5>{{carDetail[0]?.brandName}} | {{carDetail[0]?.carName}}</h5>
     </div>
     <div class="card-body">
         <h5 class="card-title">Kiralama Bilgileri</h5>
@@ -15,21 +15,17 @@
 
             </div>
             <div class="col-md-3">
-                <input type="text" class="form-control mb-1" disabled="disabled" [value]="carDetail.car[0]?.dailyPrice | currency:'₺'">
+                <input type="text" class="form-control mb-1" disabled="disabled" [value]="carDetail[0]?.dailyPrice | currency:'₺'">
                 <input type="text" class="form-control mb-1" disabled="disabled" [value]="customer?.firstName+ ' ' +customer?.lastName">
 
-                <!-- <select class="form-select mb-1 " aria-label="Default select example " [(ngModel)]="customerId ">
-                    <option *ngFor="let customer of customers " [ngValue]="customer.customerId " [value]="customer.firstName + customer.lastName "></option>
-                </select> -->
                 <input (change)="onChangeEvent($event)" min="{{getRentMinDate()}}" [(ngModel)]="rentDate " id="rent-date" type="date" class="form-control mb-1">
 
                 <input disabled={{!firstDateSelected}} min="{{getReturnMinDate()}}" max="{{getReturnMaxDate()}}" [(ngModel)]="returnDate" id="return-date" type="date" class="form-control mb-1 ">
 
-                <input type="text" class="form-control mb-1" disabled="disabled" [value]="carDetail.car[0]?.minFindeksScore">
+                <input type="text" class="form-control mb-1" disabled="disabled" [value]="carDetail[0]?.minFindeksScore">
 
             </div>
         </div>
-        <!-- <span *ngIf="!findeksScoreState" class="badge bg-danger mb-3">Findeks Puanınız Yetersiz Gibi Görünüyor...</span><br> -->
 
         <button (click)="checkFindeksScore()" class="btn btn-outline-primary" type="button" data-bs-toggle="collapse">
             Ödemeye Geç

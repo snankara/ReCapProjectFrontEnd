@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { CarDetail } from 'src/app/models/carDetail';
 import { Customer } from 'src/app/models/customer';
 import { Rental } from 'src/app/models/rental';
 import { User } from 'src/app/models/user';
-import { CarDetailService } from 'src/app/services/car-detail.service';
+import { CarService } from 'src/app/services/car.service';
 import { CustomerService } from 'src/app/services/customer.service';
 import { RentalService } from 'src/app/services/rental.service';
 import { UserService } from 'src/app/services/user.service';
@@ -18,12 +17,12 @@ import { UserService } from 'src/app/services/user.service';
 export class CarDetailComponent implements OnInit {
 
   apiUrl ="https://localhost:44348"
-  carDetail:CarDetail={car:[],carImages:[]};
+  carDetail:CarDetail[] = [];
   rental:Rental[] = [];
   customer:Customer[]=[]
   user:User
 
-  constructor(private carDetailService:CarDetailService, 
+  constructor(private carService:CarService, 
               private activatedRoute:ActivatedRoute,
               private rentalService:RentalService, 
               private userService:UserService, private customerService:CustomerService) { }
@@ -53,7 +52,7 @@ export class CarDetailComponent implements OnInit {
     })
   }
   getCarDetail(carId:number){
-    this.carDetailService.getCarDetails(carId).subscribe(response => {
+    this.carService.getCarAndImageDetailsByCarId(carId).subscribe(response => {
       this.carDetail = response.data
 
     })
@@ -73,7 +72,7 @@ export class CarDetailComponent implements OnInit {
   }
 
   getButtonClassName(){
-    if(this.carDetail.car[0]?.status == true){
+    if(this.carDetail[0]?.status == true){
       return "btn btn-outline-primary";
     }
     else {

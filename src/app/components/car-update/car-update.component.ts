@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Brand } from 'src/app/models/brand';
 import { Car } from 'src/app/models/car';
+import { CarDetail } from 'src/app/models/carDetail';
 import { Color } from 'src/app/models/color';
 import { BrandService } from 'src/app/services/brand.service';
 import { CarService } from 'src/app/services/car.service';
@@ -17,7 +18,7 @@ import { ColorService } from 'src/app/services/color.service';
 export class CarUpdateComponent implements OnInit {
 
   carUpdateForm : FormGroup
-  cars:Car[] = [];
+  carDetail:CarDetail[] = [];
   brands:Brand[];
   colors:Color[];
 
@@ -27,8 +28,8 @@ export class CarUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
-      if(params["carId"] && params["carName"]){ 
-        this.getCarById(params["carId"]);
+      if(params["carId"] && params["carName"]){  
+        this.getCarAndImageDetailsByCarId(params["carId"]);
         this.createCarUpdateForm(params["carName"]);
 
       }
@@ -62,9 +63,9 @@ export class CarUpdateComponent implements OnInit {
       this.colors = response.data
     })
   }
-  getCarById(carId:number){
-    this.carService.getCarById(carId).subscribe(response => {
-      this.cars = response.data;
+  getCarAndImageDetailsByCarId(carId:number){
+    this.carService.getCarAndImageDetailsByCarId(carId).subscribe(response => {
+      this.carDetail = response.data;
     })
   }
 

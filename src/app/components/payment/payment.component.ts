@@ -32,7 +32,7 @@ export class PaymentComponent implements OnInit {
   customer:Customer;
   creditCard:CreditCard; 
   rental:Rental;
-  carDetail:CarDetail={car:[],carImages:[]};
+  carDetail:CarDetail[];
   paymentAmount: number = 0;
   cardExist:boolean;
   getCustomerId:number;
@@ -40,7 +40,7 @@ export class PaymentComponent implements OnInit {
   creditCardForm:FormGroup
   
   constructor(private activatedRoute:ActivatedRoute, private rentalService:RentalService, private customerService:CustomerService,
-              private creditCardService:CreditCardService, private router:Router, private toastrService:ToastrService, private carDetailService:CarDetailService,
+              private creditCardService:CreditCardService, private router:Router, private toastrService:ToastrService, private carService:CarService,
               private dialog:MatDialog, private localStorageService:LocalStrogeService, private formBuilder:FormBuilder
     ) { }
 
@@ -65,8 +65,8 @@ export class PaymentComponent implements OnInit {
     })
   }
   getCarDetails(){
-    this.carDetailService.getCarDetails(this.rental.carId).subscribe(response => {
-      this.carDetail.car = response.data.car;
+    this.carService.getCarAndImageDetailsByCarId(this.rental.carId).subscribe(response => {
+      this.carDetail = response.data;
       this.calculatePayment();
     })
   }
@@ -91,7 +91,7 @@ export class PaymentComponent implements OnInit {
     
     var rentDays = Math.ceil(difference/(1000 * 3600 * 24));
 
-    this.paymentAmount = rentDays * this.carDetail.car[0].dailyPrice;
+    this.paymentAmount = rentDays * this.carDetail[0].dailyPrice;
 
     if(this.paymentAmount <= 0){
       this.toastrService.error("Hatalı İşlem !")

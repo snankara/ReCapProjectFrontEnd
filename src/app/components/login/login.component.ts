@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from "@angular/forms";
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -16,7 +16,7 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit { 
 
   loginForm : FormGroup
   customer:Customer
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
               private authService:AuthService, private router:Router, private customerService:CustomerService, 
               private localStorageService:LocalStrogeService, private userService:UserService, private creditCardService:CreditCardService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
     this.createLoginForm();
   }
 
@@ -63,7 +63,6 @@ export class LoginComponent implements OnInit {
         this.localStorageService.setLocalStorage(response.data,"creditCard")
       })
     }
-
   }
   
   login(){
@@ -72,7 +71,7 @@ export class LoginComponent implements OnInit {
       this.authService.login(loginModel).subscribe(response => {
         this.toastrService.info(response.message, "Başarılı !");
         this.getUserByEmail(loginModel.email)
-
+        // console.log(response.data.token)
         this.localStorageService.setLocalStorage(response.data.token,"token")        
 
         setTimeout(() => {this.router.navigate([""])}, 200)

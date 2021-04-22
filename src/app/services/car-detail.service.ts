@@ -17,4 +17,5 @@ export class CarDetailService {
     let newPath = this.apiUrl + "/api/cars/getcardetailsandimages?carId=" +carId
     return this.httpClient.get<ItemResponseModel<CarDetail>>(newPath) 
   }
+
 }

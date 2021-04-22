@@ -9,7 +9,7 @@
                             <label class="card-text mb-1" for="carName"> Araba </label>
                             <div class="form-group">
                                 <select class="form-select mb-1" aria-label="Default select example" formControlName="carId">
-                                    <option *ngFor="let car of cars" [ngValue]="car.carId">{{car.carName}}</option>
+                                    <option *ngFor="let car of carDetail" [ngValue]="car.carId">{{car.carName}}</option>
                                 </select>
                             </div>
                         </div>
@@ -66,37 +66,37 @@
                     <div class="mb-3">
                         <label class="card-text mb-1"> Araba </label>
                         <div class="form-group">
-                            <input type="text" class="form-control" [value]="cars[0]?.carName" disabled="disabled" />
+                            <input type="text" class="form-control" [value]="carDetail[0]?.carName" disabled="disabled" />
                         </div>
                     </div>
                     <div class="mb-3">
                         <label class="card-text mb-1"> Marka </label>
                         <div class="form-group">
-                            <input type="text" class="form-control" [value]="cars[0]?.brandName" disabled="disabled" />
+                            <input type="text" class="form-control" [value]="carDetail[0]?.brandName" disabled="disabled" />
                         </div>
                     </div>
                     <div class="mb-3">
                         <label class="card-text mb-1"> Renk </label>
                         <div class="form-group">
-                            <input type="text" class="form-control" [value]="cars[0]?.colorName" disabled="disabled" />
+                            <input type="text" class="form-control" [value]="carDetail[0]?.colorName" disabled="disabled" />
                         </div>
                     </div>
                     <div class="mb-3">
                         <label class="card-text mb-1">Model</label>
                         <div class="form-group">
-                            <input type="text" class="form-control" [value]="cars[0]?.modelYear" disabled="disabled" />
+                            <input type="text" class="form-control" [value]="carDetail[0]?.modelYear" disabled="disabled" />
                         </div>
                     </div>
                     <div class="mb-3">
                         <label class="card-text mb-1"> Günlük Fiyat</label>
                         <div class="form-group">
-                            <input type="text" class="form-control" [value]="cars[0]?.dailyPrice" disabled="disabled" />
+                            <input type="text" class="form-control" [value]="carDetail[0]?.dailyPrice" disabled="disabled" />
                         </div>
                     </div>
                     <div class="mb-3">
                         <label class="card-text mb-1"> Açıklama</label>
                         <div class="form-group">
-                            <input type="text" class="form-control" [value]="cars[0]?.description" disabled="disabled" />
+                            <input type="text" class="form-control" [value]="carDetail[0]?.description" disabled="disabled" />
                         </div>
                     </div>
                 </div>

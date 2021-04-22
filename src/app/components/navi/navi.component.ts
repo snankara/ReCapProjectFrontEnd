@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Customer } from 'src/app/models/customer';
 import { User } from 'src/app/models/user';
 import { CustomerService } from 'src/app/services/customer.service';
@@ -17,7 +17,7 @@ export class NaviComponent implements OnInit {
   user:User
   customer : Customer
 
-  constructor(private customerService:CustomerService, private localStorageService:LocalStrogeService) { }
+  constructor(private customerService:CustomerService, private localStorageService:LocalStrogeService, private router:Router) { }
 
   ngOnInit(): void {
     let customer = this.localStorageService.getLocalStorage("customer");
@@ -37,9 +37,12 @@ export class NaviComponent implements OnInit {
     this.localStorageService.getLocalStorage("token") ? this.state=true : this.state= false;
   }
 
+  loginPage(){
+    this.router.navigate(["login"])
+  }
   logOut(){
     console.log("Logout !");
-    this.localStorageService.clear()
+    this.localStorageService.clear() 
     window.location.reload();
   }
 }

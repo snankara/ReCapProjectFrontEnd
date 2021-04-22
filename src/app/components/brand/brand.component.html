@@ -7,8 +7,9 @@
         </h2>
         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
             <ul class="list-group">
-                <li routerLink="/brands" class="list-group-item">Tüm Markalar</li>
-                <li (click)="setCurrentBrand(brand)" routerLink="brands/brand/{{brand.brandId}}" [class]="getCurrentBrandClass(brand)" *ngFor="let brand of brands">{{brand.brandName}}</li>
+                <li routerLink="/" class="list-group-item">Tüm Markalar</li>
+
+                <li (click)="setCurrentBrand(brand)" [class]="getCurrentBrandClass(brand)" routerLink="brands/brand/{{brand.brandId}}" *ngFor="let brand of brands">{{brand.brandName}}</li>
             </ul>
         </div>
     </div>
